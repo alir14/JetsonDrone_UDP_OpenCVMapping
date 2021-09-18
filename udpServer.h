@@ -8,9 +8,12 @@ class UDPServer
 {
 public:
 	SOCKET listening;
-
-	bool initializeWinSocket();
+	bool IsReady = false;
+	UDPServer();
+	~UDPServer();
 	bool createAndBinSocket(int port);
-	void CloseUDPSocket();
+	
+private:
+	bool initializeWinSocket();
 };
 

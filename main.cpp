@@ -31,13 +31,9 @@ int main(int argc, char* argv[])
 
 	UDPServer udpServer;
 
-	bool result = udpServer.initializeWinSocket();
-
-	if (result)
+	if (udpServer.IsReady)
 	{
-		result = udpServer.createAndBinSocket(54000);
-
-		if (result) 
+		if (udpServer.createAndBinSocket(54000))
 		{
 			sockaddr_in client;
 			int clientLength = sizeof(client);
@@ -74,8 +70,6 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-
-	udpServer.CloseUDPSocket();
 
 	return(0);
 

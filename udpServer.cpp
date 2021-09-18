@@ -35,8 +35,14 @@ bool UDPServer::createAndBinSocket(int port)
 	return true;
 }
 
-void UDPServer::CloseUDPSocket()
+UDPServer::UDPServer() 
 {
+	IsReady = initializeWinSocket();
+}
+
+UDPServer::~UDPServer()
+{
+	std::cout << "closing server socket ...." << std::endl;
 	closesocket(listening);
 
 	WSACleanup();
