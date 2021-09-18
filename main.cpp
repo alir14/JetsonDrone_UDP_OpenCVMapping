@@ -55,18 +55,21 @@ int main(int argc, char* argv[])
 
 				std::vector<std::string> result = ProcessResponseMessage(buffer, '|');
 				
-				// converting message 
-				DroneTrackingMessageReponse processedResult = DrawProcessedResult(result);
+				if (result.size() > 0) 
+				{
+					// converting message 
+					DroneTrackingMessageReponse processedResult = DrawProcessedResult(result);
 
-				//--------------- drawing
-				cv::Mat droneDetection(720, 1280, CV_8UC3);
+					//--------------- drawing
+					cv::Mat droneDetection(720, 1280, CV_8UC3);
 
-				cv::rectangle(droneDetection, processedResult.boxPoint1, processedResult.boxPoint2, SCALAR_RED);
-				cv::circle(droneDetection, processedResult.centerCordinate, 15, SCALAR_GREEN, -1);
+					cv::rectangle(droneDetection, processedResult.boxPoint1, processedResult.boxPoint2, SCALAR_RED);
+					cv::circle(droneDetection, processedResult.centerCordinate, 15, SCALAR_GREEN, -1);
 
-				cv::imshow("droneDetection", droneDetection);
+					cv::imshow("droneDetection", droneDetection);
 
-				if (cv::waitKey(25) >= 0) break;
+					if (cv::waitKey(25) >= 0) break;
+				}
 			}
 		}
 	}
@@ -78,10 +81,10 @@ int main(int argc, char* argv[])
 std::vector<std::string> ProcessResponseMessage(const char* msg, char separator)
 {
 	// message format centerX,centerY|boxPoint1X,boxPoint1Y,boxPoint2X,boxPoint2Y|Scale|ClassNAme
+	std::vector<std::string> foundItem; 
+
 	try
 	{
-		std::vector<std::string> foundItem;
-
 		std::string response(msg);
 
 		if (response.length() > 0)
@@ -100,22 +103,25 @@ std::vector<std::string> ProcessResponseMessage(const char* msg, char separator)
 				response.erase(0, indextoRemove);
 
 			} while (response.length() > 0);
-
-			return foundItem;
 		}
+
+		return foundItem;
 	}
 	catch (const std::exception& ex)
 	{
 		std::cout << "cannot convert message " << ex.what() << std::endl;
+
+		return foundItem;
 	}
 
 }
 
 DroneTrackingMessageReponse DrawProcessedResult(std::vector<std::string> &parameters) {
+	
+	DroneTrackingMessageReponse result;
+	
 	try
 	{
-		DroneTrackingMessageReponse result;
-
 		if (parameters.size() > 0) {
 			for (size_t i = 0; i < parameters.size(); i++)
 			{
@@ -146,5 +152,7 @@ DroneTrackingMessageReponse DrawProcessedResult(std::vector<std::string> &parame
 	catch (const std::exception& ex)
 	{
 		std::cout << "failed to process and draw image " << ex.what() << std::endl;
+
+		return result;
 	}
 }

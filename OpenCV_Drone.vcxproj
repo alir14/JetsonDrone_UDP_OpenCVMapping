@@ -155,10 +155,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="droneEngine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="udpServer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="droneEngine.h" />
     <ClInclude Include="udpServer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
