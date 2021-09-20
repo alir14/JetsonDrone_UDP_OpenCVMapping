@@ -42,6 +42,8 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 
+	telloEngine.SendCommand("streamon");
+
 	if (udpServer.IsReady)
 	{
 		if (udpServer.createAndBinSocket(54000))
